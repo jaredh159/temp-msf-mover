@@ -18,3 +18,5 @@ async function main() {
     await uploadFile(path, cloudPath);
   }
 }
+
+main();
