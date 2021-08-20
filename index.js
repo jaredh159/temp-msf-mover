@@ -34,6 +34,8 @@ async function verify(localPath, cloudPath) {
   if (localHash !== remoteHash) {
     red(`non matching hashes for file ${localPath}, re-uploading`);
     return upload(localPath, cloudPath);
+  } else {
+    log(c`{gray verified hashes for} {cyan ${localPath.replace(rootDir, ``)}}`);
   }
 }
 
