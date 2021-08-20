@@ -4,6 +4,7 @@ const { red, green, magenta, yellow, c, log } = require(`x-chalk`);
 const { sync: glob } = require(`glob`);
 const { uploadFile, md5File: cloudMd5File } = require(`@friends-library/cloud`);
 const md5File = require(`md5-file`);
+const exec = require(`x-exec`).default;
 
 const rootDir = process.env.ROOT_DIR;
 
@@ -12,10 +13,18 @@ const allFiles = glob(`${rootDir}/**/*.{epub,mobi,pdf,mp3}`, { nodir: true });
 log(c`{gray starting transfer of} {cyan ${allFiles.length}} {gray files}`);
 
 async function main() {
-  for (const path of allFiles) {
-    const relpath = path.replace(`${rootDir}/`, ``);
+  for (const localPath of allFiles) {
+    const relpath = localPath.replace(`${rootDir}/`, ``);
     const cloudPath = `storage/msf-site-backup/assets/${relpath}`;
-    await verify(path, cloudPath);
+    const parts = relpath.split(`/`);
+    parts.pop();
+    const dir = parts.join(`/`);
+    log(c`starting transfer of file {magenta ${relpath}}`);
+    exec.exit(`ssh jared@165.227.211.142 "mkdir -p /home/jared/assets/${dir}"`);
+    exec.exit(`scp -q ${localPath} jared@165.227.211.142:/home/jared/assets/${relpath}`);
+    // ssh user@host "mkdir -p /target/path/" &&
+    // scp /path/to/source user@host:/target/path/
+    // await verify(localPath, cloudPath);
   }
 }
 
