@@ -21,9 +21,9 @@ async function main() {
     const dir = parts.join(`/`);
     log(c`starting transfer of file {magenta ${relpath}}`);
     exec.exit(`ssh jared@165.227.211.142 "mkdir -p /home/jared/assets/${dir}"`);
-    exec.exit(`scp -q ${localPath} jared@165.227.211.142:/home/jared/assets/${relpath}`);
-    // ssh user@host "mkdir -p /target/path/" &&
-    // scp /path/to/source user@host:/target/path/
+    exec.exit(
+      `scp -q ${localPath} jared@165.227.211.142:"'/home/jared/assets/${relpath}'"`,
+    );
     // await verify(localPath, cloudPath);
   }
 }
