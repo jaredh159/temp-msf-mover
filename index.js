@@ -7,16 +7,11 @@ const rootDir = process.env.ROOT_DIR;
 
 const allFiles = glob(`${rootDir}/**/*.{epub,mobi,pdf,mp3}`, { nodir: true });
 
-const fileExts = new Set();
-for (const path of allFiles) {
-  const ext = path.split(`.`).pop();
-  fileExts.add(ext);
-}
+log(c`{gray starting transfer of} {cyan ${allFiles.length}} {gray files}`);
 
-console.log(`${allFiles.length} files`);
-console.log(fileExts);
-// ignore .zip files
-//  ignore .txt
-//  ignore .css
-//  ignore .jpg
-// Set { 'epub', 'mobi', 'pdf', 'mp3' }
+for (const path of allFiles) {
+  const relpath = path.replace(`${rootDir}/`, ``);
+  const cloudPath = `storage/msf-site/assets/${relpath}`;
+  log(c`starting transfer of file {magenta ${relpath}}`);
+  console.log({ localPath: path, cloudPath });
+}
