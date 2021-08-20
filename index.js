@@ -13,9 +13,9 @@ log(c`{gray starting transfer of} {cyan ${allFiles.length}} {gray files}`);
 
 async function main() {
   for (const path of allFiles) {
-    const localPath = path.replace(`${rootDir}/`, ``);
-    const cloudPath = `storage/msf-site-backup/assets/${localPath}`;
-    await verify(localPath, cloudPath);
+    const relpath = path.replace(`${rootDir}/`, ``);
+    const cloudPath = `storage/msf-site-backup/assets/${relpath}`;
+    await verify(path, cloudPath);
   }
 }
 
